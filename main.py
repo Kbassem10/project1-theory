@@ -1,5 +1,5 @@
 from classes import State
-from utils import epsilon_closure
+from utils import epsilon_closure, move
 
 def main():
     #Create the States
@@ -43,6 +43,10 @@ def main():
     print("Epsilon closure of q3:", epsilon_closure(q3))
     print("Epsilon closure of q5:", epsilon_closure(q5))
     print("Epsilon closure of q8:", epsilon_closure(q8))
+
+    #Test move function 
+    print("Move from epsilon closure of q0 on 'a':", move(epsilon_closure(q0), 'a'))
+    print("Move from epsilon closure of q4 on 'b':", move(epsilon_closure(q4), 'b'))
 
 if __name__ == "__main__":
     main()

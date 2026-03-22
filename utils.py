@@ -14,3 +14,29 @@ def epsilon_closure(state):
                 stack.append(next_state)
                 closure.add(next_state)
     return closure
+
+def move(states, symbol):
+    '''
+        This function gets a set of states and a symbol,
+        and returns the set of states that can be reached
+        from (including the epsilon transitions) 
+        any of those states on that symbol.
+    '''
+
+    result = set() #defining the set of result to avoid duplicates
+
+    '''
+        loop over the states on the input set and check if there
+        is a transition on the input symbol, if there is, add the
+        next state to the result set
+    '''
+    for state in states:
+        if symbol in state.transitions:
+            for next_state in state.transitions[symbol]:
+                result.add(next_state)
+    
+    #loop over the result set and add the epsilon closure of each state to the result set
+    for item in list(result):
+        result.update(epsilon_closure(item))
+
+    return result
