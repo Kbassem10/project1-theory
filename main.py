@@ -1,52 +1,39 @@
 from classes import State
-from utils import epsilon_closure, move
+from utils import epsilon_closure, move, load_nfa, print_dfa
 
 def main():
-    #Create the States
-    q0 = State("q0")
-    q1 = State("q1")
-    q2 = State("q2")
-    q3 = State("q3")
-    q4 = State("q4")
-    q5 = State("q5")
-    q6 = State("q6")
-    q7 = State("q7")
-    q8 = State("q8")
-    q9 = State("q9", is_accepting=True) # The double circle in the diagram
+    # --- LOAD INPUT ---
+    # Load the NFA configuration from your JSON file
+    nfa_data = load_nfa("nfa.json , nfa_complex.json")  # Adjust the path as needed")
+    if not nfa_data:
+        return
 
+    # Create State objects dynamically based on JSON 'states' and 'accepting_states'
+    states = {name: State(name, name in nfa_data["accepting_states"]) 
+              for name in nfa_data["states"]}
+    
+    # Map Alphabet Transitions from JSON
+    for start_node, trans in nfa_data["transitions"].items():
+        for char, targets in trans.items():
+            states[start_node].transitions[char] = [states[t] for t in targets]
+            
+    # Map Epsilon Transitions from JSON
+    for start_node, targets in nfa_data["epsilon_transitions"].items():
+        states[start_node].epsilon_transitions = [states[t] for t in targets]
 
-    #Draw the Arrows (Transitions)
+    # --- LOGIC TESTING (Optional) ---
+    start_node = states[nfa_data["start_state"]]
+    print(f"Testing Epsilon Closure of {start_node.name}:", epsilon_closure(start_node))
 
-    #Standard Alphabet Transitions
-    q0.transitions['a'] = [q1]   # q0 goes to q1 on 'a'
-    q4.transitions['b'] = [q5]   # q4 goes to q5 on 'b'
-    q6.transitions['c'] = [q7]   # q6 goes to q7 on 'c'
-
-    #Epsilon Transitions 
-    q1.epsilon_transitions.append(q2)
-
-    q2.epsilon_transitions.append(q3)
-    q2.epsilon_transitions.append(q9)
-
-    q3.epsilon_transitions.append(q4)
-    q3.epsilon_transitions.append(q6)
-
-    q5.epsilon_transitions.append(q8)
-    q7.epsilon_transitions.append(q8)
-
-    q8.epsilon_transitions.append(q3)
-    q8.epsilon_transitions.append(q9)
-
-    #Test the Epsilon Closure Function
-    print("Epsilon closure of q0:", epsilon_closure(q0))
-    print("Epsilon closure of q2:", epsilon_closure(q2))
-    print("Epsilon closure of q3:", epsilon_closure(q3))
-    print("Epsilon closure of q5:", epsilon_closure(q5))
-    print("Epsilon closure of q8:", epsilon_closure(q8))
-
-    #Test move function 
-    print("Move from epsilon closure of q0 on 'a':", move(epsilon_closure(q0), 'a'))
-    print("Move from epsilon closure of q4 on 'b':", move(epsilon_closure(q4), 'b'))
+    # ---  FORMAT OUTPUT ---
+    # Once  provides the final conversion result (dfa_dict), 
+    # you display it using your professional table formatter.
+    
+    # Example placeholder of a converted DFA result:
+    example_dfa_results = {("A", "a"): "B", ("A", "b"): "A", ("B", "a"): "B", ("B", "b"): "C"}
+    
+    # This fulfills the "Arrow/Asterisk" marking requirement
+    print_dfa(example_dfa_results, nfa_data["alphabet"], "A", ["C"])
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,21 @@
+{
+    "states": ["q0", "q1", "q2", "q3"],
+    "alphabet": ["a", "b"],
+    "start_state": "q0",
+    "accepting_states": ["q3"],
+    "transitions": {
+        "q0": {
+            "a": ["q0", "q1"],
+            "b": ["q0"]
+        },
+        "q1": {
+            "b": ["q2"]
+        },
+        "q2": {
+            "b": ["q3"]
+        }
+    },
+    "epsilon_transitions": {
+        "q0": ["q1"]
+    }
+}
