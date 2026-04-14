@@ -1,6 +1,7 @@
 import json
 from classes import State
 
+#Mathew
 def epsilon_closure(state):
     '''This function gets a state and returns the epsilon closure of that state.'''
     closure = set() #defining the set of closure to avoid duplicates
@@ -18,6 +19,7 @@ def epsilon_closure(state):
                 closure.add(next_state)
     return closure
 
+#Hagar
 def move(states, symbol):
     '''
         This function gets a set of states and a symbol,
@@ -44,6 +46,7 @@ def move(states, symbol):
 
     return result
 
+#Karim
 def read_nfa_from_json(filename):
     '''
         This function reads the NFA definition from a JSON file
@@ -88,6 +91,7 @@ def read_nfa_from_json(filename):
     start_node = states[nfa_data["start_state"]]
     return start_node, nfa_data["alphabet"], list(accepting_states)
 
+#Karim
 def get_dfa_state_name(state_set, names_dict):
     """
     Helper function to assign a unique letter (A, B, C...) 
@@ -100,6 +104,7 @@ def get_dfa_state_name(state_set, names_dict):
         
     return names_dict[state_set]
 
+#Karim
 def nfa_to_dfa(start_node, alphabet, nfa_accepting_states):
     
     #The starting DFA state is the epsilon closure of the starting NFA state.
@@ -153,6 +158,7 @@ def nfa_to_dfa(start_node, alphabet, nfa_accepting_states):
 
     return dfa_transitions, start_dfa_name, list(dfa_accepting_states)
 
+#Ali
 def print_dfa(dfa_dict, alphabet, start_state, accepting_states):
     print("--- DFA TRANSTIONS TABLE ---")
     print(f"{'State':<10} | " + " | ".join(f"{sym:<5}" for sym in alphabet))

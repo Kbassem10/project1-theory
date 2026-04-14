@@ -1,3 +1,4 @@
+#All
 class State:
     def __init__(self, name, is_accepting=False):
         self.name = name

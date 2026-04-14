@@ -1,6 +1,6 @@
 from classes import State
 from utils import print_dfa, read_nfa_from_json, nfa_to_dfa
-
+# Ali
 def main():
     start_node, alphabet, nfa_accepting_states = read_nfa_from_json("nfa_complex.json")
     if not start_node:
